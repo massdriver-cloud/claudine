@@ -1,0 +1,21 @@
+FROM node:18-bullseye-slim
+
+# build the UI
+RUN mkdir /app-ui
+WORKDIR /app-ui
+
+COPY ui/package.json package.json
+RUN yarn install
+
+COPY ui /app-ui
+RUN yarn run build
+
+RUN mkdir /app-api
+WORKDIR /app-api
+
+COPY api/package.json package.json
+RUN yarn install
+
+COPY api /app-api
+
+CMD ["yarn", "start"]
